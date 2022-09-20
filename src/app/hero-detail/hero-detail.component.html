@@ -1,0 +1,13 @@
+<!-- ngIf fonctionne comme un if classique, si une variable est indiquée, le if s'active lorsque la variable existe -->
+<div *ngIf="hero">
+
+  <h2>{{hero.name | uppercase}} Details</h2>
+  <div> <span>id: </span>{{hero.id}}</div>
+  <div>
+    <label for="hero-name">Hero name: </label>
+    <input id="hero-name" [(ngModel)]="hero.name" placeholder="name">
+  </div>
+
+</div>
+
+<button type="button" (click)="goBack()">Go back</button>
