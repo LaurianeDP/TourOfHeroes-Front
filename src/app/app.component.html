@@ -1,3 +1,4 @@
+<h1>{{title}}</h1>
 <nav>
   <!-- Angular utilise routerLink pour indiquer le chemin à passer dans l'URL, ce chemin est récupéré par le router
   qui redirige vers le composant correspondant cette directive est automatiquement cliquable elle vient de RouterModule
@@ -6,6 +7,10 @@
   <a [routerLink]="['/', 'heroes']">Heroes</a>
   <!--  <a routerLink="/heroes">Heroes</a>-->
 </nav>
-<h1>{{title}}</h1>
 <router-outlet></router-outlet>
 <app-messages></app-messages>
+
+<!-- [hero] est un bind unidirectionnel d'un attribut, lorsque selectedHero change, la valeur est envoyée à l'attribut
+hero de la classe hero-details, qui s'occupe d'afficher les détails du selectedHero communiqué. L'affichage ne
+renvoit pas d'information le bind n'a donc pas besoin d'être bi-directionnel -->
+<!--<app-hero-detail [hero]="selectedHero"></app-hero-detail>-->
