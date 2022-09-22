@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 
-import { Hero } from '../hero';
-import { HeroService } from '../hero.service';
+import { HeroService } from '../services/hero.service';
+import {Hero} from "../hero";
+import {InMemoryDataService} from "../services/in-memory-data.service";
+
 // import { MessageService } from '../message.service';
 
 // interface SuperHero {
@@ -22,7 +24,7 @@ export class HeroesComponent implements OnInit {
     //? indique que l'attribut peut être initialisé en ayant une valeure nulle
     // selectedHero?: Hero;
 
-  constructor(private heroService: HeroService) { }
+  constructor(private heroService: HeroService, protected memoryDataService: InMemoryDataService) { }
 
   ngOnInit(): void {
     this.getHeroes();
@@ -33,10 +35,9 @@ export class HeroesComponent implements OnInit {
   //   this.messageService.add(`HeroesComponent: Selected hero id=${hero.id}`);
   // }
 
-  add(name: string): void {
-    name = name.trim();
-    if (!name) {return;}
-    this.heroService.addHero({ name } as Hero)
+  add(hero: Hero): void {
+    if (!hero) {return;}
+    this.heroService.addHero(hero)
       .subscribe(hero => {
         this.heroes.push(hero);
       });
@@ -44,7 +45,7 @@ export class HeroesComponent implements OnInit {
 
   delete(hero: Hero): void {
     this.heroes = this.heroes.filter(h => h !== hero);
-    this.heroService.deleteHero(hero.id).subscribe();
+    this.heroService.deleteHero(hero.id!).subscribe();
   }
 
   getHeroes(): void {
