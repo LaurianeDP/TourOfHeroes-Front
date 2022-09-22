@@ -47,6 +47,7 @@ export class HeroService {
   }
 
   addHero(hero: Hero): Observable<Hero> {
+    //Add a step where hero is reformatted in json
     return this.http.post<Hero>(this.heroesUrl, hero, this.httpOptions).pipe(
       tap((newHero: Hero) => this.log(`added hero w/ id=${newHero.id}`)),
       catchError(this.handleError<Hero>('addHero'))
@@ -54,6 +55,7 @@ export class HeroService {
   }
 
   updateHero(hero: Hero): Observable<any> {
+    //Add a step where hero is reformatted in json
     return this.http.put(this.heroesUrl, hero, this.httpOptions)
       .pipe(
         tap(_ => this.log(`updated hero id=${hero.id}`)),
@@ -71,7 +73,6 @@ export class HeroService {
   }
 
   getHeroes(): Observable<Hero[]> {
-    // this.messageService.add('HeroService: fetched heroes');
     return this.http.get<Hero[]>(this.heroesUrl)
       .pipe(
         tap(_ => this.log('fetched heroes')),

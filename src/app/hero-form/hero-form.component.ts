@@ -1,7 +1,8 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {Hero, HeroModel} from "../hero";
-import {HeroesComponent} from "../heroes/heroes.component";
-import {FormControl, FormGroup, Validators} from "@angular/forms";
+import { Component, Input, OnInit } from '@angular/core';
+import { Hero, HeroModel } from "../hero";
+import { HeroesComponent } from "../heroes/heroes.component";
+import { FormControl, FormGroup, Validators, ReactiveFormsModule } from "@angular/forms";
+import { HeroService } from "../services/hero.service";
 
 @Component({
   selector: 'app-hero-form',
@@ -9,34 +10,31 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
   styleUrls: ['./hero-form.component.css']
 })
 export class HeroFormComponent extends HeroesComponent implements OnInit {
-  heroForm = new FormGroup({
-    heroName : new FormControl('Dr IQ', [Validators.required]),
-    heroAlterEgo : new FormControl('Chuck Overstreet'),
-    powers : new FormControl(['Really Smart', 'Super Flexible', 'Super Hot', 'Weather' +
-    ' Changer'], [Validators.required])}
-    );
+  powers = ['Really Smart', 'Super Flexible', 'Super Hot', 'Weather' +
+  ' Changer']
 
-  model = new Hero({
-    id: 18,
-    name: 'Dr IQ',
-    power: 'Really Smart',
-    alterEgo: 'Chuck Overstreet'
-  });
+  heroForm = new FormGroup({
+      heroName: new FormControl('', [Validators.required]),
+      heroAlterEgo: new FormControl(''),
+      heroPower: new FormControl('', [Validators.required])
+    }
+  );
 
   submitted = false;
 
   superconstructor() {
   }
 
-  onSubmit() {
+  onSubmit(name:string, power:string, alterEgo?:string) {
     this.submitted = true;
+    this.newHero(name, power, alterEgo);
   }
 
-  newHero(name: string, power: string, alterEgo: string) {
+  newHero(name: string, power: string, alterEgo?: string) {
     let heroes: HeroModel[] = this.memoryDataService.createDb()?.heroes;
     let id = this.memoryDataService.genId(heroes);
     name = name.trim();
-    alterEgo = alterEgo.trim();
+    alterEgo = alterEgo?.trim();
     if (!name || !power) {
       return;
     }

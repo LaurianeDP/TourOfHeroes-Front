@@ -1,14 +1,46 @@
 <!-- ngIf fonctionne comme un if classique, si une variable est indiquée, le if s'active lorsque la variable existe -->
 <div *ngIf="hero">
+  <div class="container mt-5">
+    <h2>{{hero.name | uppercase}} Details</h2>
+    <div><span>id: </span>{{hero.id}}</div>
+    <div class="row justify-content-center">
+      <div class="col-lg-6">
+        <h2 class="mb-3">Hero Form</h2>
+        <form [formGroup]="heroForm">
+          <div class="form-group mb-3">
+            <label for="name" class="form-label">Name</label>
+            <input formControlName="heroName" type="text" required
+                   class="form-control" id="name" name="name">
+<!--            <p>Nom actuel : {{heroForm.get('heroName')?.value}}</p> //TEST-->
+            <div
+              [hidden]="!heroForm.get('heroName')?.errors?.['required']"
+              class="alert alert-danger">Le nom ne peut pas être vide
+            </div>
+          </div>
 
-  <h2>{{hero.name | uppercase}} Details</h2>
-  <div> <span>id: </span>{{hero.id}}</div>
-  <div>
-    <label for="hero-name">Hero name: </label>
-    <input id="hero-name" [(ngModel)]="hero.name" placeholder="name">
+          <div class="form-group mb-3">
+            <label for="alterEgo" class="form-label">Alter Ego</label>
+            <input formControlName="heroAlterEgo" type="text" id="alterEgo"
+                   class="form-control" name="alterEgo">
+          </div>
+
+          <div class="form-group mb-3">
+            <label for="power" class="form-label">Hero Power</label>
+            <select formControlName="heroPower" id="power" class="form-select"
+                    name="power" required>
+              <option selected
+                      value="{{this.heroForm.get('heroPower')?.value}}">{{this.heroForm.get('heroPower')?.value}}</option>
+              <option *ngFor="let pow of powers" value="{{pow}}">{{pow}}</option>
+            </select>
+          </div>
+          <button type="submit" [disabled]="!heroForm.valid" (click)="save()">Update
+          </button>
+          <button type="button" (click)="goBack()">Go back</button>
+        </form>
+        <!--      Fin du form en dessous-->
+      </div>
+    </div>
   </div>
 
 </div>
 
-<button type="button" (click)="goBack()">Go back</button>
-<button type="button" (click)="save()">Save</button>

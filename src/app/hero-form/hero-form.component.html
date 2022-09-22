@@ -3,55 +3,55 @@
   <div class="row justify-content-center">
     <div class="col-lg-6" [hidden]="submitted">
       <h2 class="mb-3">Hero Form</h2>
-      <form #heroForm="ngForm" (ngSubmit)="onSubmit()">
+      <form [formGroup]="heroForm">
+<!--        (ngSubmit)="onSubmit(heroForm.get('heroName')!.value,-->
+<!--        heroForm.get('heroPower')!.value, heroForm.get('heroAlterEgo')?.value)"-->
         <div class="form-group mb-3">
           <label for="name" class="form-label">Name</label>
-          <input [formControl]="heroName" type="text" required
-                 class="form-control" id="name" name="name"
-                 #name>
-                    <p>Nom actuel : {{model.name}}</p> //TO REMOVE
-          <div [hidden]="name.errors?.['required'] || name"
+          <input formControlName="heroName" type="text" required
+                 class="form-control" id="name" name="name">
+          <div
+            [hidden]="!heroForm.get('heroName')?.errors?.['required']"
                class="alert alert-danger">Le nom ne peut pas être vide
           </div>
         </div>
 
         <div class="form-group mb-3">
           <label for="alterEgo" class="form-label">Alter Ego</label>
-          <input [(ngModel)]="model.alterEgo" type="text" id="alterEgo"
-                 class="form-control" name="alterEgo" #alterEgo>
+          <input formControlName="heroAlterEgo" type="text" id="alterEgo"
+                 class="form-control" name="alterEgo">
         </div>
 
         <div class="form-group mb-3">
           <label for="power" class="form-label">Hero Power</label>
-          <select [(ngModel)]="model.power" id="power" class="form-select"
-                  name="power" required #power>
+          <select formControlName="heroPower" id="power" class="form-select"
+                  name="power" required>
             <option *ngFor="let pow of powers" value="{{pow}}">{{pow}}</option>
           </select>
-          <!--          <p>Pouvoir actuel : {{model.power}}</p> //TO REMOVE-->
         </div>
-        <button [disabled]="!heroForm.form.valid" type="submit"
-                class="btn btn-primary mb-3">Sign
-          -up
+        <button [disabled]="!heroForm.valid" type="submit"
+                class="btn btn-primary mb-3">Sign-up
         </button>
       </form>
       <!--      Fin du hidden form en dessous-->
     </div>
     <div class="col-lg-6" [hidden]="!submitted">
-      <h2>The following was submitted</h2>
+      <h2>Congratulations! A new hero was created:</h2>
       <div class="row">
         <div class="col-3">Name</div>
-        <div class="col-9">{{model.name}}</div>
+        <div class="col-9">{{heroForm.get('heroName')?.value}}</div>
       </div>
       <div class="row">
         <div class="col-3">Alter Ego</div>
-        <div class="col-9">{{model.alterEgo}}</div>
+        <!-- Add condition, if value empty say "it's a secret!" -->
+        <div class="col-9">{{heroForm.get('heroAlterEgo')?.value}}</div>
       </div>
       <div class="row">
         <div class="col-3">Power</div>
-        <div class="col-9">{{model.power}}</div>
+        <div class="col-9">{{heroForm.get('heroPower')?.value}}</div>
       </div>
-      <button type="button" class="btn btn-secondary" (click)="submitted=false;
-      newHero(name.value, power.value, alterEgo.value)"> <!--  name.value=''>-->
+      <button type="submit" class="btn btn-secondary" (click)="submitted=false;
+      ">
         Edit
       </button>
     </div>

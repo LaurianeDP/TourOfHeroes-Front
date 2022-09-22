@@ -1,4 +1,14 @@
 /* HeroDetailComponent's private CSS styles */
+@import url('https://unpkg.com/bootstrap@5.2/dist/css/bootstrap.min.css');
+
+.ng-valid[required], .ng-valid.required {
+  border-left: 5px solid darkgreen;
+}
+
+.ng-invalid:not(form) {
+  border-left: 5px solid darkred;
+}
+
 label {
   color: #435960;
   font-weight: bold;
