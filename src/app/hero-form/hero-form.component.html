@@ -1,36 +1,37 @@
+<div class="ladiv"></div>
+
 <div class="container mt-5">
   <!--  {{ model | json}}-->
   <div class="row justify-content-center">
     <div class="col-lg-6" [hidden]="submitted">
       <h2 class="mb-3">Hero Form</h2>
-      <form [formGroup]="heroForm">
-<!--        (ngSubmit)="onSubmit(heroForm.get('heroName')!.value,-->
-<!--        heroForm.get('heroPower')!.value, heroForm.get('heroAlterEgo')?.value)"-->
-        <div class="form-group mb-3">
-          <label for="name" class="form-label">Name</label>
-          <input formControlName="heroName" type="text" required
-                 class="form-control" id="name" name="name">
+      <form [formGroup]="heroForm" novalidate (ngSubmit)="onSubmit()" fxLayout="column">
+        <!--        (ngSubmit)="onSubmit(heroForm.get('heroName')!.value,-->
+        <!--        heroForm.get('heroPower')!.value, heroForm.get('heroAlterEgo')?.value)"-->
+        <mat-form-field appearance="fill">
+          <mat-label>Name</mat-label>
+          <input matInput formControlName="heroName" required id="name" name="name">
+        </mat-form-field>
           <div
-            [hidden]="!heroForm.get('heroName')?.errors?.['required']"
-               class="alert alert-danger">Le nom ne peut pas être vide
+            [hidden]="!heroForm.get('heroName')?.errors?.['required'] ||
+            heroForm.get('heroName')?.pristine"> Le nom ne peut pas être vide
           </div>
-        </div>
 
-        <div class="form-group mb-3">
-          <label for="alterEgo" class="form-label">Alter Ego</label>
-          <input formControlName="heroAlterEgo" type="text" id="alterEgo"
-                 class="form-control" name="alterEgo">
-        </div>
+        <mat-form-field appearance="fill">
+          <mat-label for="alterEgo" class="form-label">Alter Ego</mat-label>
+          <input matInput formControlName="heroAlterEgo" id="alterEgo" name="alterEgo">
+        </mat-form-field>
 
-        <div class="form-group mb-3">
-          <label for="power" class="form-label">Hero Power</label>
-          <select formControlName="heroPower" id="power" class="form-select"
+        <mat-form-field appearance="fill">
+          <mat-label for="power" class="form-label">Hero Power</mat-label>
+          <mat-select formControlName="heroPower" id="power" class="form-select"
                   name="power" required>
-            <option *ngFor="let pow of powers" value="{{pow}}">{{pow}}</option>
-          </select>
-        </div>
+            <mat-option *ngFor="let pow of powers" value="{{pow}}">{{pow}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+
         <button [disabled]="!heroForm.valid" type="submit"
-                class="btn btn-primary mb-3">Sign-up
+                mat-stroked-button class="mb-3">Sign-up
         </button>
       </form>
       <!--      Fin du hidden form en dessous-->
@@ -43,16 +44,31 @@
       </div>
       <div class="row">
         <div class="col-3">Alter Ego</div>
-        <!-- Add condition, if value empty say "it's a secret!" -->
-        <div class="col-9">{{heroForm.get('heroAlterEgo')?.value}}</div>
+        <!-- If value of Alter Ego empty says "it's a secret!" -->
+        <div class="col-9">
+          <ng-container *ngIf="this.hero">
+            <div *ngIf="!isSecret()">{{getHeroAlterEgo()}}</div>
+            <div *ngIf="isSecret()" class="{{secretClass}}">{{secret.value}}
+              <input class="form-check-input ms-2" type="checkbox" value="" id="checkbox"
+                     (change)="changeSecret($event)" checked>
+            </div>
+
+<!--            <ng-template #alterEgoTpl>-->
+<!--              <div>{{getHeroAlterEgo()}}</div>-->
+<!--            </ng-template>-->
+          </ng-container>
+        </div>
       </div>
       <div class="row">
         <div class="col-3">Power</div>
         <div class="col-9">{{heroForm.get('heroPower')?.value}}</div>
       </div>
       <button type="submit" class="btn btn-secondary" (click)="submitted=false;
-      ">
-        Edit
+      this.resetForm();  this.location?.back();">
+        Sign another Hero up
+      </button>
+      <button *ngIf="this.hero" type="button" class="btn btn-outline-primary mx-3"
+              routerLink="/detail/{{this.hero.id}}">Edit this Hero
       </button>
     </div>
   </div>

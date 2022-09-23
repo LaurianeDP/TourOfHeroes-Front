@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { Observable, of } from 'rxjs';
 
-import { Hero } from '../hero';
+import {Hero, HeroModel} from '../hero';
 // import { HEROES } from './mock-heroes';
 import { MessageService } from './message.service';
 import { HttpClient, HttpHeaders} from "@angular/common/http";
@@ -46,11 +46,12 @@ export class HeroService {
       );
   }
 
-  addHero(hero: Hero): Observable<Hero> {
-    //Add a step where hero is reformatted in json
-    return this.http.post<Hero>(this.heroesUrl, hero, this.httpOptions).pipe(
-      tap((newHero: Hero) => this.log(`added hero w/ id=${newHero.id}`)),
-      catchError(this.handleError<Hero>('addHero'))
+  addHero(hero: Hero): Observable<HeroModel> {
+    //Hero reformatted to HeroModel json
+    let heroModel = hero.objectToModel();
+    return this.http.post<HeroModel>(this.heroesUrl, heroModel, this.httpOptions).pipe(
+      tap((newHero: HeroModel) => this.log(`added hero w/ id=${newHero.id}`)),
+      catchError(this.handleError<HeroModel>('addHero'))
     );
   }
 
