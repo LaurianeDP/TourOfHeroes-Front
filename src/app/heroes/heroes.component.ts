@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-
+import {MatListModule} from '@angular/material/list';
 import { HeroService } from '../services/hero.service';
 import {Hero} from "../hero";
 import {InMemoryDataService} from "../services/in-memory-data.service";
@@ -18,7 +18,7 @@ import {Location} from "@angular/common";
 @Component({
   selector: 'app-heroes',
   templateUrl: './heroes.component.html',
-  styleUrls: ['./heroes.component.css']
+  styleUrls: ['./heroes.component.scss']
 })
 export class HeroesComponent implements OnInit {
     heroes: Hero[] = [];

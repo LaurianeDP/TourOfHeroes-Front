@@ -1,0 +1,19 @@
+//@import "shared";
+@use 'shared';
+
+mat-list-option {
+  button {
+  width: fit-content;
+  }
+  mat-icon {
+    margin-left: 1rem;
+  }
+  a {
+    text-decoration: none;
+    width: fit-content;
+    span {
+      margin: 0 1rem;
+      color: shared.$accent;
+    }
+  }
+}

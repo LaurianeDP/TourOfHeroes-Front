@@ -7,7 +7,7 @@ import {Location} from "@angular/common";
 @Component({
   selector: 'app-hero-form',
   templateUrl: './hero-form.component.html',
-  styleUrls: ['./hero-form.component.css'],
+  styleUrls: ['./hero-form.component.scss'],
   encapsulation:ViewEncapsulation.None // OBLIGATOIRE
 })
 export class HeroFormComponent implements OnInit, OnDestroy {
@@ -58,7 +58,7 @@ export class HeroFormComponent implements OnInit, OnDestroy {
     // return true;
   }
 
-  changeSecret($event:Event) {
+  changeSecret() {
     if(this.secret.value === "It's a secret!") {
       this.secret.setValue("But not really");
       this.secretClass = "text-dark";

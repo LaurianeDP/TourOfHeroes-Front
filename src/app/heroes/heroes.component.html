@@ -7,16 +7,18 @@
 <!--  <button class="add-button" type="button" (click)="add(heroName.value); heroName.value=''">Add hero</button>-->
 <!--</div>-->
 
-<ul class="heroes">
+<mat-selection-list role="list" [multiple]="false">
   <!-- ngFor fonctionne comme un forEach, à appliquer à un tableau -->
-  <li *ngFor="let hero of heroes">
+  <mat-list-option *ngFor="let hero of heroes">
+    <button mat-raised-button color="primary">
+      <a routerLink="/detail/{{hero.id}}">
+        <span>{{hero.id}}</span> <span>{{hero.name}}</span>
+      </a>
+      <mat-icon fontIcon="delete" color="accent" (click)="delete(hero)"></mat-icon>
+    </button>
+  </mat-list-option>
+</mat-selection-list>
+
     <!-- Le [class] (class binding) permet d'appliquer une condition à l'application de la classe | Les parenthèses sur
      le click indique que l'on écoute un évènement -->
     <!--    <button type="button" [class.selected]="hero === selectedHero" (click)="onSelect(hero)">-->
-    <a routerLink="/detail/{{hero.id}}">
-      <span class="badge">{{hero.id}}</span> <span>{{hero.name}}</span>
-    </a>
-    <button type="button" class="delete" title="delete hero" (click)="delete(hero)">X</button>
-    <!--    </button>-->
-  </li>
-</ul>

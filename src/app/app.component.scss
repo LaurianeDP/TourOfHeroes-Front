@@ -1,0 +1,28 @@
+/* AppComponent's private CSS styles */
+@use "shared";
+
+.container {
+  margin: 1rem;
+}
+
+mat-toolbar {
+  span {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 1rem;
+  }
+}
+
+.mat-button-toggle {
+  background-color: #673ab7;
+}
+
+.mat-button-toggle-checked {
+  background-color: shared.$accent;
+}
+
+mat-button-toggle-group {
+  border: none;
+}
+

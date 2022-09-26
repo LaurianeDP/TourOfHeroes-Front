@@ -1,4 +1,4 @@
-  <a  routerLink="/detail/{{hero?.id}}">
-    {{hero?.name}}
-  <button (click)="select.emit(hero)">select</button>
-  </a>
+<a mat-raised-button color="primary" routerLink="/detail/{{hero?.id}}">
+  {{hero?.name}}
+  <mat-icon fontIcon="call_made" color="accent" (click)="select.emit(hero)"></mat-icon>
+</a>

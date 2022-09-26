@@ -1,0 +1,22 @@
+#search-bar {
+  display: flex;
+  align-items: center;
+
+  label {
+    margin-right: 0.5rem;
+  }
+}
+
+.search-result {
+  a {
+    width: fit-content;
+    padding: 0 1rem;
+    margin: 0.5rem;
+  }
+}
+
+td, th {
+  padding: 0 1rem!important;
+}
+
+

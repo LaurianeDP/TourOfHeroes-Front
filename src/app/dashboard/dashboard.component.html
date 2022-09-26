@@ -1,10 +1,12 @@
-<h2>Top Heroes</h2>
-<div>
-<!--  <a *ngFor="let hero of heroes" routerLink="/detail/{{hero.id}}">-->
-<!--    {{hero.name}}-->
-<!--  </a>-->
+<app-hero-search></app-hero-search>
 
-  <hero-badge *ngFor="let hero of heroes" [hero]="hero" (select)="handleSelectHero($event)"></hero-badge>
+<h2>Top Heroes</h2>
+
+<div>
+  <!--  <a *ngFor="let hero of heroes" routerLink="/detail/{{hero.id}}">-->
+  <!--    {{hero.name}}-->
+  <!--  </a>-->
+  <hero-badge *ngFor="let hero of heroes" [hero]="hero"
+              (select)="handleSelectHero($event)"></hero-badge>
 </div>
 
-<app-hero-search></app-hero-search>

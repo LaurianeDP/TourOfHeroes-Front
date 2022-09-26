@@ -1,11 +1,66 @@
-<div id="search-result">
-  <label for="search-box">Hero Search</label>
-  <input id="search-box" #searchBox (input)="search(searchBox.value)"/>
+<div id="search-bar">
+  <mat-icon>search</mat-icon>
+  <mat-form-field>
+    <input matInput type="text" placeholder="Search for a hero" id="search-box" #searchBox
+           (input)="search(searchBox.value)"/>
+  </mat-form-field>
+  <button *ngIf="searchBox.value" matSuffix mat-icon-button aria-label="Clear"
+          (click)="searchBox.value=''; ">
+    <mat-icon>close</mat-icon>
+  </button>
 
-  <ul class="search-result">
-    <!-- Ici le $ indique que heroes est un Observable et non un tableau -->
-    <li *ngFor="let hero of heroes$ | async">
-      <a routerLink="/detail/{{hero.id}}">{{hero.name}}</a>
-    </li>
-  </ul>
+</div>
+<div class="search-result" [hidden]="!searchBox.value">
+  <table mat-table [dataSource]="heroes"
+         class="mat-elevation-z8">
+
+    <!-- Id Column -->
+    <ng-container matColumnDef="Id">
+      <th mat-header-cell *matHeaderCellDef>
+        Id
+      </th>
+      <td mat-cell *matCellDef="let hero"> {{hero.id}} </td>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef>
+        Name
+      </th>
+      <td mat-cell *matCellDef="let hero">
+        <a mat-raised-button color="primary"
+           routerLink="/detail/{{hero.id}}">{{hero.name}}
+          <mat-icon fontIcon="call_made" color="accent"></mat-icon>
+        </a>
+      </td>
+    </ng-container>
+
+    <!-- Alter Ego Column -->
+    <ng-container matColumnDef="alterEgo">
+      <th mat-header-cell *matHeaderCellDef>
+        Alter Ego
+      </th>
+      <td mat-cell *matCellDef="let hero"> {{hero.alterEgo}} </td>
+    </ng-container>
+
+    <!-- Power Column -->
+    <ng-container matColumnDef="power">
+      <th mat-header-cell *matHeaderCellDef>
+        Power
+      </th>
+      <td mat-cell *matCellDef="let hero"> {{hero.power}} </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+
+<!--  <mat-selection-list [multiple]="false">-->
+<!--    &lt;!&ndash; Ici le $ indique que heroes est un Observable et non un tableau &ndash;&gt;-->
+<!--    <mat-list-option *ngFor="let hero of heroes$ | async">-->
+<!--      <a mat-raised-button color="primary" routerLink="/detail/{{hero.id}}">{{hero.name}}-->
+<!--        <mat-icon fontIcon="call_made" color="accent"></mat-icon>-->
+<!--      </a>-->
+<!--    </mat-list-option>-->
+<!--  </mat-selection-list>-->
 </div>

@@ -1,16 +1,24 @@
-<h1>{{title}}</h1>
 <nav>
   <!-- Angular utilise routerLink pour indiquer le chemin à passer dans l'URL, ce chemin est récupéré par le router
   qui redirige vers le composant correspondant cette directive est automatiquement cliquable elle vient de RouterModule
    -->
-  <a [routerLink]="['/', 'dashboard']">Home</a>
-  <a [routerLink]="['/', 'heroes']">Heroes</a>
-  <a [routerLink]="['/', 'sign-up']">Hero Subscription Form</a>
+    <mat-toolbar color="primary">
+      <span>{{title}}</span>
+      <mat-button-toggle-group>
+        <mat-button-toggle mat-icon-button class="example-icon">
+          <mat-icon fontIcon="home" [routerLink]="['/', 'dashboard']"></mat-icon>
+        </mat-button-toggle>
+        <mat-button-toggle mat-button [routerLink]="['/', 'heroes']">Heroes</mat-button-toggle>
   <!--  <a routerLink="/heroes">Heroes</a>-->
+        <mat-button-toggle mat-button [routerLink]="['/', 'sign-up']">Hero Subscription Form</mat-button-toggle>
+      </mat-button-toggle-group>
+    </mat-toolbar>
 </nav>
 
-<router-outlet></router-outlet>
-<app-messages></app-messages>
+<div class="container">
+  <router-outlet></router-outlet>
+  <app-messages></app-messages>
+</div>
 
 <!-- [hero] est un bind unidirectionnel d'un attribut, lorsque selectedHero change, la valeur est envoyée à l'attribut
 hero de la classe hero-details, qui s'occupe d'afficher les détails du selectedHero communiqué. L'affichage ne
