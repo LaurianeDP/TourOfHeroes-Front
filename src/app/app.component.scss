@@ -16,10 +16,12 @@ mat-toolbar {
 
 .mat-button-toggle {
   background-color: #673ab7;
+  color: white;
 }
 
 .mat-button-toggle-checked {
   background-color: shared.$accent;
+  color: black;
 }
 
 mat-button-toggle-group {
