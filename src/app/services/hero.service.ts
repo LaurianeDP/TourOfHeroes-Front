@@ -13,7 +13,7 @@ import { catchError, map, tap } from "rxjs/operators";
 })
 export class HeroService {
 
-  private heroesUrl = 'api/heroes';
+  private heroesUrl = 'http://localhost:8080/api/heroes';
   private httpOptions = {
     headers: new HttpHeaders({'Content-Type': 'application/json'})
   };
@@ -56,8 +56,8 @@ export class HeroService {
   }
 
   updateHero(hero: Hero): Observable<any> {
-    //Add a step where hero is reformatted in json
-    return this.http.put(this.heroesUrl, hero, this.httpOptions)
+    let heroModel = hero.objectToModel();
+    return this.http.put(this.heroesUrl+'/'+heroModel.id, heroModel, this.httpOptions)
       .pipe(
         tap(_ => this.log(`updated hero id=${hero.id}`)),
         catchError(this.handleError<any>('updateHero'))
@@ -74,18 +74,27 @@ export class HeroService {
   }
 
   getHeroes(): Observable<Hero[]> {
-    return this.http.get<Hero[]>(this.heroesUrl)
+    return this.http.get<HeroModel[]>(this.heroesUrl)
       .pipe(
         tap(_ => this.log('fetched heroes')),
+        map((heroModels) => {
+          let heroes: Hero[] = [];
+          for (const heroModel of heroModels) {
+            heroes.push(new Hero(heroModel));
+          }
+          return heroes;
+          // return heroModels.map((model) => new Hero(model));
+        } ),
         catchError(this.handleError<Hero[]>('getHeroes', []))
     );
   }
 
   getHero(id: number): Observable<Hero> {
     const url = `${this.heroesUrl}/${id}`;
-    return this.http.get<Hero>(url)
+    return this.http.get<HeroModel>(url)
       .pipe(
         tap(_ => this.log(`fecthed hero id=${id}`)),
+        map((heroModel) => new Hero(heroModel) ),
         catchError(this.handleError<Hero>(`getHero id=${id}`))
       );
     // const hero = HEROES.find(h => h.id === id)!;

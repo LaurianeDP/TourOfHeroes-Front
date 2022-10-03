@@ -63,6 +63,7 @@ export class HeroDetailComponent implements OnInit, OnDestroy {
     this.hero!.name=this.heroForm.get('heroName')?.value;
     this.hero!.alterEgo=this.heroForm.get('heroAlterEgo')?.value;
     this.hero!.power=this.heroForm.get('heroPower')?.value;
+    console.log(this.hero);
     if (this.hero) {
       this.heroService.updateHero(this.hero)
         .subscribe(() => console.log("hero udpated"));

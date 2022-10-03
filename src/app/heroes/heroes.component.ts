@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {MatListModule} from '@angular/material/list';
 import { HeroService } from '../services/hero.service';
 import {Hero} from "../hero";
-import {InMemoryDataService} from "../services/in-memory-data.service";
+// import {InMemoryDataService} from "../services/in-memory-data.service";
 import {Location} from "@angular/common";
 
 // import { MessageService } from '../message.service';
@@ -25,7 +25,7 @@ export class HeroesComponent implements OnInit {
     //? indique que l'attribut peut être initialisé en ayant une valeure nulle
     // selectedHero?: Hero;
 
-  constructor(protected heroService: HeroService, protected memoryDataService: InMemoryDataService) { }
+  constructor(protected heroService: HeroService) { }
 
   ngOnInit(): void {
     this.getHeroes();

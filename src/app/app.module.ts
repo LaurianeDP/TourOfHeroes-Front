@@ -42,7 +42,7 @@ import {MatTableModule} from "@angular/material/table";
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    HttpClientInMemoryWebApiModule.forRoot(InMemoryDataService, {dataEncapsulation: false}),
+    // HttpClientInMemoryWebApiModule.forRoot(InMemoryDataService, {dataEncapsulation: false}),
     MatButtonModule,
     FlexLayoutModule,
     MatInputModule,
