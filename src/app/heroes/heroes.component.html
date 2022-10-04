@@ -19,6 +19,9 @@
   </mat-list-option>
 </mat-selection-list>
 
+<button class="paginationButton" *ngIf="(currentPage != 1) && previousButtonActive" mat-raised-button color="secondary" (click)="goToPreviousPage()">Previous page</button>
+<button class="paginationButton" *ngIf="(heroes.length == 15) && nextButtonActive" mat-raised-button color="secondary" (click)="goToNextPage()">Next page</button>
+
     <!-- Le [class] (class binding) permet d'appliquer une condition à l'application de la classe | Les parenthèses sur
      le click indique que l'on écoute un évènement -->
     <!--    <button type="button" [class.selected]="hero === selectedHero" (click)="onSelect(hero)">-->

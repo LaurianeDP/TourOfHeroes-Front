@@ -22,8 +22,12 @@ import {Location} from "@angular/common";
 })
 export class HeroesComponent implements OnInit {
     heroes: Hero[] = [];
+    allHeroes: Hero[] = [];
     //? indique que l'attribut peut être initialisé en ayant une valeure nulle
     // selectedHero?: Hero;
+  public currentPage:number = 1;
+  public nextButtonActive = true;
+  public previousButtonActive = false;
 
   constructor(protected heroService: HeroService) { }
 
@@ -50,9 +54,28 @@ export class HeroesComponent implements OnInit {
     this.heroService.deleteHero(hero.id!).subscribe();
   }
 
-  getHeroes(): void {
-    this.heroService.getHeroes()
+  goToNextPage() {
+    this.currentPage = this.currentPage + 1;
+    this.heroService.getHeroes(this.currentPage)
+    .subscribe((heroes) => this.heroes = heroes);
+    this.previousButtonActive = true;
+  }
+
+  goToPreviousPage() {
+    this.currentPage = this.currentPage - 1;
+    this.heroService.getHeroes(this.currentPage)
+    .subscribe((heroes) => this.heroes = heroes);
+    this.nextButtonActive = true;
+  }
+
+  private getHeroes(): void {
+    this.heroService.getHeroes(this.currentPage)
       .subscribe((heroes) => this.heroes = heroes);
   }
 
+
+  private getAllHeroes() {
+    this.heroService.getAllHeroes()
+      .subscribe((heroes) => this.allHeroes = heroes);
+  }
 }

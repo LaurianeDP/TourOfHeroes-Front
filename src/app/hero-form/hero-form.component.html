@@ -23,7 +23,7 @@
         <mat-label for="power" class="form-label">Hero Power</mat-label>
         <mat-select formControlName="heroPower" id="power" class="form-select"
                     name="power" required>
-          <mat-option *ngFor="let pow of powers" value="{{pow}}">{{pow.name}}</mat-option>
+          <mat-option *ngFor="let pow of powers" [value]="pow.id">{{pow.name}}</mat-option>
         </mat-select>
       </mat-form-field>
 
@@ -43,24 +43,21 @@
       <div class="category">Alter Ego</div>
       <!-- If value of Alter Ego empty says "it's a secret!" -->
       <div>
-        <ng-container *ngIf="this.hero">
-          <div *ngIf="!isSecret()">{{getHeroAlterEgo()}}</div>
-          <mat-checkbox *ngIf="isSecret()" class="{{secretClass}}"
-                        (change)="changeSecret()" checked labelPosition="before">{{secret.value}}
-          </mat-checkbox>
-          <!--            <ng-template #alterEgoTpl>-->
-          <!--              <div>{{getHeroAlterEgo()}}</div>-->
-          <!--            </ng-template>-->
-        </ng-container>
+        <div *ngIf="!isSecret()">{{getHeroAlterEgo()}}</div>
+        <mat-checkbox *ngIf="isSecret()" class="{{secretClass}}"
+                      (change)="changeSecret()" checked labelPosition="before">{{secret.value}}
+        </mat-checkbox>
+        <!--            <ng-template #alterEgoTpl>-->
+        <!--              <div>{{getHeroAlterEgo()}}</div>-->
+        <!--            </ng-template>-->
       </div>
     </div>
     <div class="row">
       <div class="category">Power</div>
-      <div>{{heroForm.get('heroPower')?.value}}</div>
+      <div>{{heroPower?.name}}</div>
     </div>
     <div class="button-group">
-      <button type="submit" mat-raised-button color="primary" (click)="submitted=false;
-      this.getHeroForm();  this.location?.back();">
+      <button type="submit" mat-raised-button color="primary" (click)="this.getHeroForm(); this.location?.back();">
         Sign another Hero up
       </button>
       <button *ngIf="this.hero" type="button" mat-raised-button color="warn"

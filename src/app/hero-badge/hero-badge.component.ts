@@ -13,7 +13,6 @@ export class HeroBadgeComponent implements OnInit, OnDestroy{
 
   ngOnDestroy(): void {
     this.select.complete();
-    console.log('je suis mort... aahh');
   }
 
   ngOnInit(): void {

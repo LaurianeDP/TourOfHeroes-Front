@@ -37,7 +37,6 @@ export class HeroDetailComponent implements OnInit, OnDestroy {
       this.hero = hero;
       this.getHeroForm();
       });
-    console.log(this.hero);
     // this.loadHero();
     //Loads all powers to fill select options
     this.heroService.getPowers()
@@ -56,9 +55,6 @@ export class HeroDetailComponent implements OnInit, OnDestroy {
         heroPower: new FormControl(this.hero?.power?.id, [Validators.required])
       }
     );
-    console.log(this.heroForm.value);
-    this.formChangesSubscription = this.heroForm.valueChanges.subscribe((result) => console.log('test', result));
-    console.log(this.hero?.power);
   }
 
   getHero(): Observable<Hero> {

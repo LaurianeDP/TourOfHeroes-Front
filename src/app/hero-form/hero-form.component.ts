@@ -18,6 +18,7 @@ export class HeroFormComponent implements OnInit, OnDestroy {
 
   }
   public hero?:HeroModel;
+  public heroPower?: PowerModel;
 
   powers:  PowerModel[] = [];
 
@@ -36,7 +37,6 @@ export class HeroFormComponent implements OnInit, OnDestroy {
       .subscribe((powers) => {
         this.powers = powers
       });
-    console.log(this.hero); //TEST
   }
 
   ngOnDestroy(): void {
@@ -48,18 +48,14 @@ export class HeroFormComponent implements OnInit, OnDestroy {
   onSubmit() {
     this.submitted = true;
     let heroName = this.heroForm.get('heroName')?.value;
-    let power = this.powers.find(({id}) => this.heroForm.get('heroPower')?.value === id);
     let alterEgo = this.heroForm.get('heroAlterEgo')?.value;
+    let power = this.powers.find(({id}) => this.heroForm.get('heroPower')?.value === id);
+    this.heroPower = power;
     this.newHero(heroName!, power!, alterEgo!);
-    console.log('submitted form');
   }
 
   isSecret(): boolean {
     return this.heroForm.get('heroAlterEgo')?.value?.length === 0;
-    // if(this.heroForm.get('heroAlterEgo')?.value?.length != 0) {
-    //   return false
-    // }
-    // return true;
   }
 
   changeSecret() {
@@ -84,7 +80,8 @@ export class HeroFormComponent implements OnInit, OnDestroy {
       return;
     }
     this.heroService.addHero({ name, power, alterEgo}).subscribe((newHero) => {
-      console.log(this.hero); //TEST
+      console.log('hero is ' + newHero); //TEST
+      this.hero = newHero;
     } );
     // this.heroService.addHero(this.hero).subscribe(function () {} );
   }
@@ -92,10 +89,11 @@ export class HeroFormComponent implements OnInit, OnDestroy {
   getHeroForm() {
     this.formChangesSubscription?.unsubscribe();
     this.heroForm = new FormGroup({
-        heroName: new FormControl(this.hero?.name, [Validators.required]),
-        heroAlterEgo: new FormControl(this.hero?.alterEgo),
-        heroPower: new FormControl(this.hero?.power?.id, [Validators.required])
+        heroName: new FormControl('', [Validators.required]),
+        heroAlterEgo: new FormControl(''),
+        heroPower: new FormControl(this.heroPower, [Validators.required])
       }
     );
+    this.submitted = false;
   }
 }

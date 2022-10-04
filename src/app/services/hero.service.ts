@@ -15,6 +15,7 @@ import {PowerModel} from "../power";
 export class HeroService {
 
   private heroesUrl = 'http://localhost:8080/api/heroes';
+  private allHeroesUrl = 'http://localhost:8080/api/heroesAll';
   private heroCreationUrl = 'http://localhost:8080/api/hero';
   private powersUrl = 'http://localhost:8080/api/powers';
   private httpOptions = {
@@ -76,10 +77,10 @@ export class HeroService {
     );
   }
 
-  getHeroes(): Observable<Hero[]> {
-    return this.http.get<HeroModel[]>(this.heroesUrl)
+  getHeroes(page = 1): Observable<Hero[]> {
+    return this.http.get<HeroModel[]>(this.heroesUrl+'?page='+page)
       .pipe(
-        tap(_ => this.log('fetched heroes')),
+        tap(_ => this.log('fetched heroes page ' + page)),
         map((heroModels) => {
           let heroes: Hero[] = [];
           for (const heroModel of heroModels) {
@@ -109,6 +110,15 @@ export class HeroService {
       .pipe(
         tap(_ => this.log('fetched powers')),
         catchError(this.handleError<PowerModel[]>('getPowers', []))
+      );
+  }
+
+  getAllHeroes(): Observable<Hero[]> {
+    return this.http.get<HeroModel[]>(this.allHeroesUrl)
+      .pipe(
+        tap(_ => this.log('fetched all heroes')),
+        map((heroModels) => heroModels.map((model) => new Hero(model))),
+        catchError(this.handleError<Hero[]>('getAllHeroes', []))
       );
   }
 }
