@@ -40,7 +40,14 @@
       <th mat-header-cell *matHeaderCellDef>
         Alter Ego
       </th>
-      <td mat-cell *matCellDef="let hero"> {{hero.alterEgo}} </td>
+      <td mat-cell *matCellDef="let hero">
+        <ng-container *ngIf="hero.alterEgo">
+          {{hero.alterEgo}}
+        </ng-container>
+        <ng-container *ngIf="!hero.alterEgo">
+          It's a secret !
+        </ng-container>
+      </td>
     </ng-container>
 
     <!-- Power Column -->
@@ -48,7 +55,7 @@
       <th mat-header-cell *matHeaderCellDef>
         Power
       </th>
-      <td mat-cell *matCellDef="let hero"> {{hero.power}} </td>
+      <td mat-cell *matCellDef="let hero"> {{hero.power.name}} </td>
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

@@ -17,6 +17,7 @@ export class HeroService {
   private heroesUrl = 'http://localhost:8080/api/heroes';
   private allHeroesUrl = 'http://localhost:8080/api/heroesAll';
   private heroCreationUrl = 'http://localhost:8080/api/hero';
+  private heroSearchUrl = 'http://localhost:8080/api/heroes_search';
   private powersUrl = 'http://localhost:8080/api/powers';
   private httpOptions = {
     headers: new HttpHeaders({'Content-Type': 'application/json'})
@@ -36,19 +37,6 @@ export class HeroService {
 
       return of(result as T);
     };
-  }
-
-  searchHeroes(term: string): Observable<Hero[]> {
-    term = term.trim();
-    if (!term) {
-      return of([]);
-    }
-    return this.http.get<Hero[]>(`${this.heroesUrl}/?name=${term}`).pipe(
-      tap(x => x.length ?
-        this.log(`found heroes matching "${term}"`) :
-        this.log(`found no heroes matching "${term}"`)),
-      catchError(this.handleError<Hero[]>('searchHeroes', []))
-      );
   }
 
   addHero(heroModel: Partial<HeroModel>): Observable<HeroModel> {
@@ -119,6 +107,26 @@ export class HeroService {
         tap(_ => this.log('fetched all heroes')),
         map((heroModels) => heroModels.map((model) => new Hero(model))),
         catchError(this.handleError<Hero[]>('getAllHeroes', []))
+      );
+  }
+
+  getSearchedHeroes(term: string):Observable<HeroModel[]> {
+    return this.http.get<HeroModel[]>(this.heroCreationUrl).pipe(
+      tap(_ => this.log(`searched hero`)),
+      catchError(this.handleError<HeroModel[]>('searchHero'))
+    );
+  }
+
+  searchHeroes(term: string): Observable<HeroModel[]> {
+    term = term.trim();
+    if (!term) {
+      return of([]);
+    }
+    return this.http.get<HeroModel[]>(`${this.heroSearchUrl}/?name=${term}`).pipe(
+      tap(x => x.length ?
+        this.log(`found heroes matching "${term}"`) :
+        this.log(`found no heroes matching "${term}"`)),
+      catchError(this.handleError<HeroModel[]>('searchHeroes', []))
       );
   }
 }
