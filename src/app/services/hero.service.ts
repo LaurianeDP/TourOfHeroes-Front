@@ -7,6 +7,7 @@ import {Hero, HeroModel} from '../hero';
 import { MessageService } from './message.service';
 import { HttpClient, HttpHeaders} from "@angular/common/http";
 import { catchError, map, tap } from "rxjs/operators";
+import {PowerModel} from "../power";
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +15,8 @@ import { catchError, map, tap } from "rxjs/operators";
 export class HeroService {
 
   private heroesUrl = 'http://localhost:8080/api/heroes';
+  private heroCreationUrl = 'http://localhost:8080/api/hero';
+  private powersUrl = 'http://localhost:8080/api/powers';
   private httpOptions = {
     headers: new HttpHeaders({'Content-Type': 'application/json'})
   };
@@ -35,7 +38,8 @@ export class HeroService {
   }
 
   searchHeroes(term: string): Observable<Hero[]> {
-    if (!term.trim()) {
+    term = term.trim();
+    if (!term) {
       return of([]);
     }
     return this.http.get<Hero[]>(`${this.heroesUrl}/?name=${term}`).pipe(
@@ -46,11 +50,10 @@ export class HeroService {
       );
   }
 
-  addHero(hero: Hero): Observable<HeroModel> {
-    //Hero reformatted to HeroModel json
-    let heroModel = hero.objectToModel();
-    return this.http.post<HeroModel>(this.heroesUrl, heroModel, this.httpOptions).pipe(
-      tap((newHero: HeroModel) => this.log(`added hero w/ id=${newHero.id}`)),
+  addHero(heroModel: Partial<HeroModel>): Observable<HeroModel> {
+    console.log(heroModel);
+    return this.http.post<HeroModel>(this.heroCreationUrl, heroModel, this.httpOptions).pipe(
+      tap((newHero: HeroModel) => this.log(`added hero`)),
       catchError(this.handleError<HeroModel>('addHero'))
     );
   }
@@ -99,5 +102,13 @@ export class HeroService {
       );
     // const hero = HEROES.find(h => h.id === id)!;
     // this.messageService.add(`HeroService: ;
+  }
+
+  getPowers(): Observable<PowerModel[]> {
+    return this.http.get<PowerModel[]>(this.powersUrl)
+      .pipe(
+        tap(_ => this.log('fetched powers')),
+        catchError(this.handleError<PowerModel[]>('getPowers', []))
+      );
   }
 }

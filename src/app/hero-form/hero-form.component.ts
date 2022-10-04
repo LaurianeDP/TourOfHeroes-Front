@@ -1,8 +1,10 @@
 import {Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
-import {Hero} from "../hero";
+import {Hero, HeroModel} from "../hero";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {HeroService} from "../services/hero.service";
 import {Location} from "@angular/common";
+import {PowerModel} from "../power";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-hero-form',
@@ -15,17 +17,11 @@ export class HeroFormComponent implements OnInit, OnDestroy {
   constructor(protected heroService:HeroService) {
 
   }
-  hero?:Hero;
+  public hero?:HeroModel;
 
-  powers = ['Really Smart', 'Super Flexible', 'Super Hot', 'Weather' +
-  ' Changer']
+  powers:  PowerModel[] = [];
 
-  heroForm = new FormGroup({
-      heroName: new FormControl('', [Validators.required]),
-      heroAlterEgo: new FormControl(''),
-      heroPower: new FormControl('', [Validators.required])
-    }
-  );
+  heroForm!: FormGroup;
 
   submitted = false;
 
@@ -35,19 +31,27 @@ export class HeroFormComponent implements OnInit, OnDestroy {
   secretClass:string = "fw-bold text-danger";
 
   ngOnInit(): void {
+    this.getHeroForm();
+    this.heroService.getPowers()
+      .subscribe((powers) => {
+        this.powers = powers
+      });
+    console.log(this.hero); //TEST
   }
 
   ngOnDestroy(): void {
+    this.formChangesSubscription?.unsubscribe();
   }
 
-
+  formChangesSubscription?:Subscription;
 
   onSubmit() {
     this.submitted = true;
     let heroName = this.heroForm.get('heroName')?.value;
-    let power = this.heroForm.get('heroPower')?.value;
+    let power = this.powers.find(({id}) => this.heroForm.get('heroPower')?.value === id);
     let alterEgo = this.heroForm.get('heroAlterEgo')?.value;
     this.newHero(heroName!, power!, alterEgo!);
+    console.log('submitted form');
   }
 
   isSecret(): boolean {
@@ -73,27 +77,25 @@ export class HeroFormComponent implements OnInit, OnDestroy {
     return this.heroForm.get('heroAlterEgo')?.value;
   }
 
-  newHero(name: string, power: string, alterEgo?: string) {
+  newHero(name: string, power: PowerModel, alterEgo?: string) {
     name = name.trim();
     alterEgo = alterEgo?.trim();
     if (!name || !power) {
       return;
     }
-    // let hero:Hero= new Hero({id:id, name:name, power:power, alterEgo:alterEgo});
-    this.hero = new Hero({ name, power, alterEgo});
-    console.log(this.hero); //TEST
-    this.heroService.addHero(this.hero).subscribe((newHero) => {
-      this.hero = new Hero(newHero);
+    this.heroService.addHero({ name, power, alterEgo}).subscribe((newHero) => {
+      console.log(this.hero); //TEST
     } );
     // this.heroService.addHero(this.hero).subscribe(function () {} );
   }
 
-  resetForm() {
+  getHeroForm() {
+    this.formChangesSubscription?.unsubscribe();
     this.heroForm = new FormGroup({
-      heroName: new FormControl('', [Validators.required]),
-      heroAlterEgo: new FormControl(''),
-      heroPower: new FormControl('', [Validators.required])
-    });
+        heroName: new FormControl(this.hero?.name, [Validators.required]),
+        heroAlterEgo: new FormControl(this.hero?.alterEgo),
+        heroPower: new FormControl(this.hero?.power?.id, [Validators.required])
+      }
+    );
   }
-
 }

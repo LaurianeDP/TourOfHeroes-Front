@@ -21,10 +21,11 @@
         </mat-form-field>
 
         <mat-form-field appearance="fill">
-          <mat-label for="power" class="form-label">Hero Power</mat-label>
+          <mat-label for="power" class="form-label">Power</mat-label>
           <mat-select formControlName="heroPower" id="power" class="form-select"
                       name="power" required>
-            <mat-option *ngFor="let pow of powers" value="{{pow}}">{{pow}}</mat-option>
+<!--            <mat-option selected value="{{hero.power?.id}}">{{hero.power?.name}}</mat-option>-->
+            <mat-option *ngFor="let pow of powers" [value]="pow.id">{{pow.name}}</mat-option>
           </mat-select>
         </mat-form-field>
         <div class="button-group">

@@ -1,16 +1,17 @@
 import {HeroService} from "./services/hero.service";
+import {PowerModel} from "./power";
 
 export interface HeroModel {
-  id: number;
+  id?: number;
   name: string;
-  power: string;
+  power: PowerModel;
   alterEgo?: string | null;
 }
 
 export class Hero {
   public id?: number|null;
   public name?: string;
-  public power?: string;
+  public power?: PowerModel;
   public alterEgo?: string | null;
 
   constructor(model:Partial<HeroModel>) {
