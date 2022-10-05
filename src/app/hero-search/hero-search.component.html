@@ -11,56 +11,61 @@
 
 </div>
 <div class="search-result" [hidden]="!searchBox.value">
-  <table mat-table [dataSource]="heroes"
-         class="mat-elevation-z8">
+  <ng-container *ngIf="heroes.length">
+    <table mat-table [dataSource]="heroes"
+           class="mat-elevation-z8">
 
-    <!-- Id Column -->
-    <ng-container matColumnDef="Id">
-      <th mat-header-cell *matHeaderCellDef>
-        Id
-      </th>
-      <td mat-cell *matCellDef="let hero"> {{hero.id}} </td>
-    </ng-container>
+      <!-- Id Column -->
+      <ng-container matColumnDef="Id">
+        <th mat-header-cell *matHeaderCellDef>
+          Id
+        </th>
+        <td mat-cell *matCellDef="let hero"> {{hero.id}} </td>
+      </ng-container>
 
-    <!-- Name Column -->
-    <ng-container matColumnDef="name">
-      <th mat-header-cell *matHeaderCellDef>
-        Name
-      </th>
-      <td mat-cell *matCellDef="let hero">
-        <a mat-raised-button color="primary"
-           routerLink="/detail/{{hero.id}}">{{hero.name}}
-          <mat-icon fontIcon="call_made" color="accent"></mat-icon>
-        </a>
-      </td>
-    </ng-container>
+      <!-- Name Column -->
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef>
+          Name
+        </th>
+        <td mat-cell *matCellDef="let hero">
+          <a mat-raised-button color="primary"
+             routerLink="/detail/{{hero.id}}">{{hero.name}}
+            <mat-icon fontIcon="call_made" color="accent"></mat-icon>
+          </a>
+        </td>
+      </ng-container>
 
-    <!-- Alter Ego Column -->
-    <ng-container matColumnDef="alterEgo">
-      <th mat-header-cell *matHeaderCellDef>
-        Alter Ego
-      </th>
-      <td mat-cell *matCellDef="let hero">
-        <ng-container *ngIf="hero.alterEgo">
-          {{hero.alterEgo}}
-        </ng-container>
-        <ng-container *ngIf="!hero.alterEgo">
-          It's a secret !
-        </ng-container>
-      </td>
-    </ng-container>
+      <!-- Alter Ego Column -->
+      <ng-container matColumnDef="alterEgo">
+        <th mat-header-cell *matHeaderCellDef>
+          Alter Ego
+        </th>
+        <td mat-cell *matCellDef="let hero">
+          <ng-container *ngIf="hero.alterEgo">
+            {{hero.alterEgo}}
+          </ng-container>
+          <ng-container *ngIf="!hero.alterEgo">
+            It's a secret !
+          </ng-container>
+        </td>
+      </ng-container>
 
-    <!-- Power Column -->
-    <ng-container matColumnDef="power">
-      <th mat-header-cell *matHeaderCellDef>
-        Power
-      </th>
-      <td mat-cell *matCellDef="let hero"> {{hero.power.name}} </td>
-    </ng-container>
+      <!-- Power Column -->
+      <ng-container matColumnDef="power">
+        <th mat-header-cell *matHeaderCellDef>
+          Power
+        </th>
+        <td mat-cell *matCellDef="let hero"> {{hero.power.name}} </td>
+      </ng-container>
 
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-  </table>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </ng-container>
+  <ng-container *ngIf="!heroes.length && searchDone">
+    <p>No heroes found matching that name</p>
+  </ng-container>
 
 <!--  <mat-selection-list [multiple]="false">-->
 <!--    &lt;!&ndash; Ici le $ indique que heroes est un Observable et non un tableau &ndash;&gt;-->

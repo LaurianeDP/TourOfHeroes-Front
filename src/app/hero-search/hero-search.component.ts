@@ -27,6 +27,7 @@ export class HeroSearchComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private searchTerms = new Subject<string>();
+  searchDone: boolean = false;
 
   constructor(private heroService: HeroService) {
   }
@@ -61,6 +62,7 @@ export class HeroSearchComponent implements OnInit, AfterViewInit, OnDestroy {
     const pipe = this.searchTerms.pipe(...tasks);
     const result: Subscription = pipe.subscribe((heroes) => {
       console.log(heroes);
+      this.searchDone = true;
       this.heroes = heroes as Hero[];
     });
     // result.unsubscribe();
