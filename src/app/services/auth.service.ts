@@ -44,13 +44,13 @@ export class AuthService {
   }
 
   logout() {
+    console.log('in logout function');
     localStorage.removeItem('id_token');
+    this.log("Admin logged out");
   }
 
   checkUserConnected() {
     const idToken = localStorage.getItem("id_token");
-    if(idToken) {
-
-    }
+    return idToken ? true : false;
   }
 }
