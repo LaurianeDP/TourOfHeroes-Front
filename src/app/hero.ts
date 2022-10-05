@@ -1,4 +1,4 @@
-import {HeroService} from "./services/hero.service";
+
 import {PowerModel} from "./power";
 
 export interface HeroModel {

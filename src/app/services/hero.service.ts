@@ -14,6 +14,7 @@ import {PowerModel} from "../power";
 })
 export class HeroService {
 
+  // private JWTtoken:string = "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpYXQiOjE2NjQ5NzQ3OTYsImV4cCI6MTY2NDk3ODM5Niwicm9sZXMiOlsiUk9MRV9BRE1JTiIsIlJPTEVfVVNFUiJdLCJ1c2VybmFtZSI6Ikhlcm9BZG1pbiJ9.Fg6OleooIWEM842610xlXhJ0iwSdSDZ-AmkBwovwUAA0Cw093FNt0AH2bblaqL5LXMAoDaFgKCPPzbiTK3nE-MUfQccpXWeZ21ea9gMpfEadvQnGiwyw9pfZIsuyOnByyv6LmeM0fv7x4SYwX3MOZQDYvdX5owtE3o99VQorsUL-oDkG8dMti9zAgEylZsJcGcOpaHXhu0zTwfe_iy1Yh3vcWManTBpxGSAt9ZuVrswfNjdecbFsGltQcMyvJ9wvcOQCdt4F7qs8aNfnTiqarMF9vCKx-ov6gFhQBHPVgUuWmy-DrzazDMp1YWLRwV60LHYkFzEw7NwAaP5kujqywDV8KfyV9C1MQRNAGSn05F7OCdov1LS2SZvQIpoDrefRjN8At2t39a7kjc09RlTqeATWSF25nU8dWl-ihmMtMqtxolBoDuy8zVWF9LY9-1AyomL8euFdcxdxWsqyZsZpmU2inrhdbZTlv5mEUVIeGmqkD8g92lN23VyirY20mmSNjnXm61gGobWlVrXtje74v-ERHPbpOsYB9P70Nwyo3dW_7GG4uog8qSXSr-q535AYzU2xmPp_iSntroimFIMb0Pz8yKb2QUVdMsW7Pl6W41xEH-4_kgKcuAxYPwcZ7Dh2lskt4q37VN0D7lFyJXcsgi7LZi2rCiMTu0b8RykP5r0";
   private heroesUrl = 'http://localhost:8080/api/heroes';
   private allHeroesUrl = 'http://localhost:8080/api/heroesAll';
   private heroCreationUrl = 'http://localhost:8080/api/hero';
@@ -29,7 +30,7 @@ export class HeroService {
     this.messageService.add(`HeroService: ${message}`);
   }
   //T est ici un paramètre pour définir le type attendu par le rapport d'erreur
-  private handleError<T>(operation = 'operation', result?: T) {
+  public handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
       console.log(error);
 

@@ -1,0 +1,40 @@
+
+.button-group {
+  margin: 2rem 0;
+
+button {
+  margin: 0 1rem;
+}
+}
+
+button {
+  width: fit-content;
+}
+
+.form-container {
+  max-width: 80%;
+  margin: 3rem auto;
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.category {
+  margin-right: 2rem;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.form {
+  min-width: 60%;
+}
+
+.form-label {
+  margin-bottom: 1rem;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+}

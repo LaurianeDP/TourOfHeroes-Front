@@ -11,6 +11,10 @@
         <mat-button-toggle mat-button [routerLink]="['/', 'heroes']">Heroes</mat-button-toggle>
   <!--  <a routerLink="/heroes">Hero</a>-->
         <mat-button-toggle mat-button [routerLink]="['/', 'sign-up']">Hero Subscription Form</mat-button-toggle>
+        <mat-button-toggle mat-button [routerLink]="['/', 'login']">Admin login</mat-button-toggle>
+        <ng-container *ngIf="userConnected">
+          <mat-button-toggle mat-button [routerLink]="['/', 'login']">Admin login</mat-button-toggle>
+        </ng-container>
       </mat-button-toggle-group>
     </mat-toolbar>
 </nav>

@@ -25,6 +25,10 @@ import {MatIconModule} from "@angular/material/icon";
 import {MatListModule} from '@angular/material/list';
 import {MatButtonToggleModule} from "@angular/material/button-toggle";
 import {MatTableModule} from "@angular/material/table";
+import { AdminLoginComponent } from './admin-login/admin-login.component';
+import {HTTP_INTERCEPTORS} from "@angular/common/http"
+import {AuthInterceptor} from "./interceptors/auth.interceptor";
+
 
 @NgModule({
   declarations: [
@@ -35,7 +39,8 @@ import {MatTableModule} from "@angular/material/table";
     DashboardComponent,
     HeroSearchComponent,
     HeroBadgeComponent,
-    HeroFormComponent
+    HeroFormComponent,
+    AdminLoginComponent
   ],
   imports: [
     AppRoutingModule,
@@ -55,7 +60,9 @@ import {MatTableModule} from "@angular/material/table";
     MatButtonToggleModule,
     MatTableModule,
   ],
-  providers: [],
+  providers: [
+    {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
