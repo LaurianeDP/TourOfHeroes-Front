@@ -13,21 +13,11 @@ export class AppComponent implements OnInit{
 
   userConnected?:boolean;
 
-  private checkUserConnected = new Subject<boolean>();
-
   constructor(private authService:AuthService) {
   }
 
   ngOnInit() {
-    this.checkUserConnected.pipe(
-      debounceTime(200),
-      distinctUntilChanged(),
-    ).subscribe(
-      () => {
-        this.userConnected = this.isUserConnected();
-        console.log("in subscribe of check pipe");
-      }
-    );
+
   }
 
   logout() {
@@ -35,7 +25,7 @@ export class AppComponent implements OnInit{
   }
 
 
-  isUserConnected() {
-    return this.authService.checkUserConnected()
+  get isUserConnected() {
+    return this.authService.userConnected;
   }
 }

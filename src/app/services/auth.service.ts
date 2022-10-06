@@ -13,11 +13,15 @@ import {PowerModel} from "../power";
 })
 export class AuthService {
 
-  constructor(private messageService: MessageService, private http: HttpClient, private heroService: HeroService) { }
+  constructor(private messageService: MessageService, private http: HttpClient, private heroService: HeroService) {
+    this.userConnected = this.checkUserConnected();
+  }
 
   private log(message: string) {
     this.messageService.add(`AuthentificationService: ${message}`);
   }
+
+  public userConnected:boolean = false;
 
   private httpOptions = {
     headers: new HttpHeaders({'Content-Type': 'application/json'})
@@ -30,6 +34,7 @@ export class AuthService {
         // console.log("beginning request pipe");//TEST
         user.authenticatedStatus = true;
         this.setSession(jwtToken);
+        this.userConnected = true;
         this.log('Logged in as Admin');
         // console.log("end request pipe");//TEST
       }),
@@ -44,11 +49,12 @@ export class AuthService {
   logout() {
     console.log('in logout function');
     localStorage.removeItem('id_token');
+    this.userConnected = false;
     this.log("Admin logged out");
   }
 
   checkUserConnected() {
-    const idToken = localStorage.getItem("id_token");
-    return idToken ? true : false;
+    //!! next to a valid value returns true, invalid value returns false
+    return !! localStorage.getItem("id_token");
   }
 }

@@ -11,13 +11,13 @@
         <mat-button-toggle mat-button [routerLink]="['/', 'heroes']">Heroes</mat-button-toggle>
   <!--  <a routerLink="/heroes">Hero</a>-->
         <mat-button-toggle mat-button [routerLink]="['/', 'sign-up']">Hero Subscription Form</mat-button-toggle>
-        <mat-button-toggle [hidden]="userConnected" mat-button [routerLink]="['/', 'login']">Admin login</mat-button-toggle>
-        <ng-container >
-          <button mat-button (click)="logout(); isUserConnected()">Logout</button>
+        <mat-button-toggle *ngIf="!isUserConnected" mat-button [routerLink]="['/', 'login']">Admin login</mat-button-toggle>
+        <ng-container>
+          <button mat-button (click)="logout();" *ngIf="isUserConnected">Logout</button>
         </ng-container>
       </mat-button-toggle-group>
       <div>
-        <ng-container *ngIf="userConnected">
+        <ng-container *ngIf="isUserConnected">
             Logged in
         </ng-container>
       </div>
