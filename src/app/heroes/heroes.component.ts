@@ -4,6 +4,7 @@ import { HeroService } from '../services/hero.service';
 import {Hero} from "../hero";
 // import {InMemoryDataService} from "../services/in-memory-data.service";
 import {Location} from "@angular/common";
+import {AuthService} from "../services/auth.service";
 
 // import { MessageService } from '../message.service';
 
@@ -28,8 +29,9 @@ export class HeroesComponent implements OnInit {
   public currentPage:number = 1;
   public nextButtonActive = true;
   public previousButtonActive = false;
+  public userConnected: boolean = this.authService.checkUserConnected();
 
-  constructor(protected heroService: HeroService) { }
+  constructor(protected heroService: HeroService, private authService: AuthService) { }
 
   ngOnInit(): void {
     this.getHeroes();

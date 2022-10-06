@@ -25,15 +25,13 @@ export class AuthService {
   private loginUrl = 'http://localhost:8080/api/login_check';
 
   login(user:User) {
-    console.log("in login function of admin service");
-
     return this.http.post<Token>(this.loginUrl, user, this.httpOptions).pipe(
       tap((jwtToken) => {
-        console.log("beginning request pipe");
+        // console.log("beginning request pipe");//TEST
         user.authenticatedStatus = true;
         this.setSession(jwtToken);
         this.log('Logged in as Admin');
-        console.log("end request pipe");
+        // console.log("end request pipe");//TEST
       }),
       catchError(this.heroService.handleError<any>(`Login`))
     )

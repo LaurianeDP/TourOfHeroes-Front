@@ -14,7 +14,9 @@
       <a routerLink="/detail/{{hero.id}}">
         <span>{{hero.id}}</span> <span>{{hero.name}}</span>
       </a>
-      <mat-icon fontIcon="delete" color="accent" (click)="delete(hero)"></mat-icon>
+      <ng-container *ngIf="userConnected">
+        <mat-icon fontIcon="delete" color="accent" (click)="delete(hero)"></mat-icon>
+      </ng-container>
     </button>
   </mat-list-option>
 </mat-selection-list>

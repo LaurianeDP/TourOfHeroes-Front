@@ -70,7 +70,7 @@ export class HeroDetailComponent implements OnInit, OnDestroy {
     console.log(this.hero);
     if (this.hero) {
       this.heroService.updateHero(this.hero)
-        .subscribe(() => console.log("hero udpated"));
+        .subscribe(() => console.log("hero update attempted"));
     }
   }
 
