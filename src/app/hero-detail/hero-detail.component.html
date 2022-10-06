@@ -4,7 +4,7 @@
   <div class="form-container">
     <h2>{{hero.name | uppercase}} Details</h2>
     <div><span>id: </span>{{hero.id}}</div>
-    <div class="form" [hidden]="submitted">
+    <div class="form">
       <form [formGroup]="heroForm" fxLayout="column">
         <mat-form-field appearance="fill">
           <mat-label>Name</mat-label>
@@ -12,7 +12,7 @@
         </mat-form-field>
         <div
           [hidden]="!heroForm.get('heroName')?.errors?.['required'] ||
-            heroForm.get('heroName')?.pristine"> Le nom ne peut pas être vide
+            heroForm.get('heroName')?.pristine"> Hero name cannot be empty
         </div>
 
         <mat-form-field appearance="fill">
@@ -29,10 +29,12 @@
           </mat-select>
         </mat-form-field>
         <div class="button-group">
-          <button type="submit" mat-raised-button color="primary" [disabled]="!heroForm.valid"
-                  (click)="save()">
-            Update
-          </button>
+          <ng-container *ngIf="userConnected">
+            <button type="submit" mat-raised-button color="primary" [disabled]="!heroForm.valid"
+                    (click)="save()">
+              Update
+            </button>
+          </ng-container>
           <button type="button" (click)="goBack()" mat-raised-button color="secondary">Go back
           </button>
         </div>

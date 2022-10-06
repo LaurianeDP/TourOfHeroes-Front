@@ -8,6 +8,7 @@ import {Hero} from '../hero';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {Observable, Subscription} from "rxjs";
 import {PowerModel} from "../power";
+import {AuthService} from "../services/auth.service";
 
 @Component({
   selector: 'app-hero-detail',
@@ -18,14 +19,16 @@ export class HeroDetailComponent implements OnInit, OnDestroy {
 
   public hero?: Hero;
 
-  powers:  PowerModel[] = [];
+  powers: PowerModel[] = [];
 
-  heroForm!:FormGroup;
-
+  heroForm!: FormGroup;
   submitted = false;
 
-  constructor(private route: ActivatedRoute, private heroService: HeroService, private location: Location) {
+  public userConnected: boolean = this.authService.checkUserConnected();
+
+  constructor(private route: ActivatedRoute, private heroService: HeroService, private location: Location, private authService: AuthService) {
   }
+
   ngOnDestroy() {
     this.formChangesSubscription?.unsubscribe();
   }
@@ -34,8 +37,8 @@ export class HeroDetailComponent implements OnInit, OnDestroy {
     this.getHeroForm();
     this.getHero()
       .subscribe(hero => {
-      this.hero = hero;
-      this.getHeroForm();
+        this.hero = hero;
+        this.getHeroForm();
       });
     // this.loadHero();
     //Loads all powers to fill select options
@@ -45,16 +48,20 @@ export class HeroDetailComponent implements OnInit, OnDestroy {
       });
   }
 
-  formChangesSubscription?:Subscription;
+  formChangesSubscription?: Subscription;
 
   getHeroForm() {
     this.formChangesSubscription?.unsubscribe();
+
+      let heroNameValue = this.userConnected ? this.hero?.name : {value:this.hero?.name, disabled: true};
+      let heroAlterEgoValue = this.userConnected ? this.hero?.alterEgo : {value:this.hero?.alterEgo, disabled: true};
+      let heroPowerValue = this.userConnected ? this.hero?.power?.id : {value:this.hero?.power?.id, disabled: true};
+
     this.heroForm = new FormGroup({
-        heroName: new FormControl(this.hero?.name, [Validators.required]),
-        heroAlterEgo: new FormControl(this.hero?.alterEgo),
-        heroPower: new FormControl(this.hero?.power?.id, [Validators.required])
-      }
-    );
+        heroName: new FormControl(heroNameValue, [Validators.required]),
+        heroAlterEgo: new FormControl(heroAlterEgoValue),
+        heroPower: new FormControl(heroPowerValue, [Validators.required])
+      })
   }
 
   getHero(): Observable<Hero> {
@@ -63,8 +70,8 @@ export class HeroDetailComponent implements OnInit, OnDestroy {
   }
 
   save(): void {
-    this.hero!.name=this.heroForm.get('heroName')?.value;
-    this.hero!.alterEgo=this.heroForm.get('heroAlterEgo')?.value;
+    this.hero!.name = this.heroForm.get('heroName')?.value;
+    this.hero!.alterEgo = this.heroForm.get('heroAlterEgo')?.value;
     //change id value to interface PowerModel
     this.hero!.power = this.powers.find(({id}) => this.heroForm.get('heroPower')?.value === id);
     console.log(this.hero);
